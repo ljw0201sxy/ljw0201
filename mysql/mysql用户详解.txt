@@ -1,0 +1,16 @@
+mysql用户详解
+use mysql 
+select * from user; 该操作可以看见用户端 一般为4个
+host为主机 localhost 为只能在本机访问 不可以远程 将localhost替换为% 即可在任意主机访问
+====创建用户
+create user '用户名'@'主机' IDENTIFIED by '密码';
+====修改密码
+alter user '用户名'@'主机' IDENTIFIED WITH mysql_native_password BY '新密码';
+------删除用户
+DROP user '用户名'@'主机'
+============================查询权限
+show grants for '用户名'@'主机' ;
+============================授予权限
+grant 权限列表 ON 数据库名.表名 to '用户名'@'主机'
+============================撤销权限
+revoke 权限列表 ON 数据库名.表名 from '用户名'@'主机'

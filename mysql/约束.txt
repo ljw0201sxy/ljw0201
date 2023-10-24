@@ -1,0 +1,23 @@
+约束
+1.非空约束
+NOT NULL
+不为空且唯一 not null,UNIQUE
+2.唯一约束（该字段所有数据都不重复）
+UNIQUE
+3.主键约束（一行数据唯一标识，非空且唯一）
+PRIMARY KEY
+主键且自动增长 primary key,auto_increment
+4.默认约束（未指定该字段的值，则采用默认值）
+DEFAULT
+5.检查约束（字段值满足一个条件）
+CHECK
+大于0，小于120 check
+6.外键约束（用来让两张表数据之间建立连接，保证数据一致性与完整性）
+FOREIGN KEY
+【create table user(
+    id int primary key auto_increment comment'主键',
+    name varchar(10) not null unique comment'姓名',
+    age int check(age>0 && age<=120)comment'年龄',
+    status char(1) default '1' comment'状态',
+    gender char(1) comment'性别'
+)comment '用户名';】

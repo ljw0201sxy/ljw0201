@@ -1,0 +1,77 @@
+mysql基础知识注释
+-------------------
+SHOW DATABASES;
+SELECT DATABASE();
+CREATE DATABASE NAME;
+USE NAME;
+SHOW TABLES;
+SHOW CREATE TABLE;
+DESC NAME;
+DROP TABLE/DATABASE NAME;
+CREATE TABLE NAME();
+
+————————————数据类型
+1.类似于c语言 整型 int等前缀 tiny small------  unsigned 无符号 signed有符号
+2.字符串类型通常用char（） varchar（） text（） blob  基本都要打引号啊！！！！！
+char一般储存性别,是否的极小单位的类容,效能高 定长字符串
+varchar用于用户名的填写内容  变长字符串
+text用于长文本信息
+3.时间日期储存
+DATE XXXX--YY--ZZ
+TIME XX:XX:XX
+YEAR XXXX
+DATETIME XXXX--YY--ZZ  XX:XX:XX
+----------------------------------------------数据修改
+1.添加ALTER TABLE NAME ADD 字段名 类型（长度） comment'';
+2.修改数据类型
+ALTER TABLE NAME MODIFY 字段名 新数据类型（）；
+3.修改字段名和字段类型
+ALITER TABLE NAME CHANGE 旧字段名 新字段名 类型（长度）； 
+4.删除字段
+ALTER TABLE NAME DROP 字段名；
+5.修改新表名
+ALTER TABLE NAME RENAME TO NEWNAME;
+6.删除表
+DROP TABLE/DATABASE NAME；
+删除指定并重新创建该表
+TRUNCATE TABLE NAEM;
+7.添加表中数据
+INSERT INTO NAME () VALUES  ();
+INSERT INTO NAME VALUES() 为所有字段添加数据
+INSERT INTO NAME () VALUES() ，() ，() ，() ，() 批量增加数据
+INSERT INTO NAME VALUES()，()，()，()，()为所有值批量增加
+8.更新表中数据内容
+UPDATE NAME SET 字段1=xx，字段2=xx，where id()()()=what;(如诺不添加where  则为修改所有数据为所改内容)
+9.删除表中数据内容
+DELETE FROM NAME WHERE 条件；不加where和条件 则为删除所有员工
+------------------------------------------------------------数据查询
+SELECT * FROM NAME;查询所有
+SELECT 字段1， 字段2，，，， FROM NAME;
+SELECT 字段2 AS’‘， 字段2 AS’‘，，，， FROM NAME; 设置别名 as 可以省略
+SELECT DISTINCT 字段列表 FROM 表名；去除重复项，可以迅速知道哪些年龄的人 哪位地方一目了然 去除重复的繁琐
+条件查询
+SELECT 字段 FROM NAME WHERE 条件列表；
+>) >=) <) <=) =) <>或!=) BETWEEN ** AND  **某范围内 含最大最小 ) IN(...)) LIKE占位符) IS NULL) AND或&&）OR或||) NOT 或！ 否 不是）
+1.查询空与非空 SELECT *FROM NAME WHERE XX IS NULL;SELECT * FROM NAME WHERE XX IS NOT NULL/IS ! NULL  
+1.select * from emp where age in(15,18,19); 或者的高级用法
+3.查询名字为两个字的信息 like '__'两个占位符 诸如此类 以此类推 
+查询最后一个值为多少 LIKE '%x'  百分号表示最后一位
+————————————————————————————————————————————————————————————————————————————————————————聚合函数SELECT 聚合函数 (字段) FROM NAME ;
+count 统计数量
+max   最大值
+min    最小值
+avg    平均值  
+sum    求和       统计某地区的年龄之和 select avg(age) from emp where address='';可与查询语法互通
+null不参与聚合运算
+——————————————————————————————————————————————————————————————————————————————————————————————-分组查询
+SELECT 字段列表 FROM NAME WHERE  。。。GROUP BY 字段 HAVING
+select gender,count(*) from emp group by gender; 按性别分组 性别展示
+select gender,avg(age) from emp group by gender;
+select gender,count(id) from emp where age<=19 group by gender having count(id)>=3;
+执行顺序where>聚合函数>having
+---------------------------------------------------------------------------------------------------排序查询
+select 字段列表 from name ORDER BY 字段1 排序方式1，字段2 排序方式2；（诺字段1相同情况，字段2按照排序方式2排序）
+asc:升序  asc可以省略，默认升序
+desc:降序
+======================================================================================================分页查询
+SELECT 字段列表 FROM 表名 LIMIT 起始索引，查询记录数；索引从0开始 （页码-1）*每页显示记录数

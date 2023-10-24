@@ -1,0 +1,48 @@
+mysql函数学习
+=======================字符串函数
+select 函数；
+1.CONCAT(S1,S2,S3----Sn)  将字符串拼接为一个字符串
+2.LOWER() UPEER() 顾名思义大小写
+3.LPAD 与 RPAD 函数；LPAD(STR,LENS,STR);
+左右填充 比如将1填充为00001，则select LPAD（1,5,0）; update emp set worknu=lpad(worknu,5,0);实际案例引用 update emp set idcard=rpad(idcard,14,0);自我想法使用
+4.TRIM(str)：删除字符串头尾空格
+select trim(' hello mysql ');
+5.SUBSTRIN(STR,START,num); 从开始数字截取字符串中字符 字符数为num
+select substring('hello mysql',1,5);
+=========================数值函数
+1.ceil（）向上取整   select ceil(1.5);    结果返回2  floor（）向下取整
+2.mod（x，y）  求x/y的模
+3.rand（） 求0-1之间的随机数
+4.round（x，y） 对x四舍五入，保留y位小数
+************案例 随机生成一个6位的随机验证码**************
+select rpad(round((rand()*1000000),0),6,0); 66666666666666666！！！！！！！！！！！
+===========================日期函数
+1.CURDATE()返回当前日期
+2.CURTIME()返回当前时间
+3.NOW()返回当前日期和时间
+4.YEAR(date)获取指定年份        select year(now());
+                               select month(now());
+                               select day(now());
+5.MONTH(date)获取指定月份
+6.DAY(date)或者指定日期
+7.DATE_ADD(date,interval expr type)返回一个日期/时间值加上一个时间间隔expr后的时间值
+select date_add(now(),interval 70 month);
+8.DATEDIFF(date1,date2) 返回起始时间到结束时间之间的天数
+select datediff('2024-02-01','2023-10-18'); 结果为106天 在一起的纪念日
+案例 查询员工入职天数并且倒叙排序
+select name,datediff(curdate(),entrydate) as 'days' from emp order by days desc;
+=========================================================================================流程函数
+1.IF(VALUE,T,F)  如果value为真返回t 否则返回f
+select if(false,'ok','error');
+2.IFNULL(VALUE1,VALUE2)  如果value1不为空 返回value1 否则返回value2
+3.case 字段1 when 字段内容 then str when 字段内容 then else then
+select name,case gender when '男' then '猛男' when '女' then '少罗' else '猛男' end from emp;
+4.case 字段1 when 字段内容 then str when 字段内容 then else end
+select
+    id,
+    name,
+    (case when math>=85 then '优秀' when math >=60 then '及格' else '不及格' end) '数学',
+    (case when chinese>=85 then '优秀' when math >=60 then '及格' else '不及格' end) '语文',
+    (case when english>=85 then '优秀' when math >=60 then '及格' else '不及格' end) '英语'
+    from score;
+    
