@@ -12,8 +12,9 @@ DEFAULT
 5.检查约束（字段值满足一个条件）
 CHECK
 大于0，小于120 check
-6.外键约束（用来让两张表数据之间建立连接，保证数据一致性与完整性）
-FOREIGN KEY
+
+
+
 【create table user(
     id int primary key auto_increment comment'主键',
     name varchar(10) not null unique comment'姓名',
@@ -21,3 +22,18 @@ FOREIGN KEY
     status char(1) default '1' comment'状态',
     gender char(1) comment'性别'
 )comment '用户名';】
+-------------------------------外键约束（用来让两张表数据之间建立连接，保证数据一致性与完整性）
+1.建表时添加
+create table name(
+
+[constraint][外键名称] foreign key 外键字段名 references 主表 主表列名
+);
+2.alter table name add constraint [外键名称] foreign key (外键字段名) references 主表 主表列名;
+alter table emp1 add constraint fk_emp_dept_id foreign key (dept_id) references dept(id);
+3.删除外键
+alter table name drop foreign key 外键名称
+***NO ACTION /RESTRICT 当在父表删除或更新记录时，先检查是否有外键，若有，则不允许删除或更新
+***CASCADE 当在父表删除或更新记录时，先检查是否有外键，若有，则也进行相应处理
+***SET NULL 当在父表中删除对应记录时，先检查是否有外键，如果有则设置子表中外键值为null
+***SET DEFAULT 当在父表有变更，将子表外键列设为一组默认值
+alter table name add constraint [外键名称] foreign key (外键字段名) references 主表 主表列名 ON UPDATE 字段名 ON DELETE 字段名;
