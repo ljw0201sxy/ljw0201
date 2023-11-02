@@ -6,3 +6,50 @@
 2.一对一
 案例：用户与用户详情的关系
 实现：任意一方加入外键，关联另一方的主键，并设置外键为unique
+----------------------------笛卡尔积
+多表查询时，两个集合的所有组合情况，应该消除所有无效的积
+select * from emp1,dept where emp1.dept_id=dept.id; 通过条件语句进行消除
+——————————————————————————————————多表查询分类
+1.连接查询
+——————————————————————————————————————————————————————————————
+内连接：查询两个表之间的交集部分数据
+隐式内连接 查询每一个员工的姓名，及关联部门的名称 select emp1.name,dept.name from emp1,dept where emp1.dept_id=dept.id;
+select 字段列表 from 表1表2 where 条件
+显式内连接 查询每一个员工的姓名，及关联部门的名称 select emp1.name,dept.name from emp1 inner join dept on emp1.dept_id = dept.id;
+select 字段列表 from 表1【inner】join 表2 on 连接条件   inner 可以省略
+——————————————————————————————————————————————————————————————
+外连接：查询其中一表所有数据，以及交集部分数据
+左外与右外连接 select 字段列表from 表一 left/right outer join 表2 on 条件 outer可以省略
+查询emp1表所有数据以及部门信息 select emp1.*,dept.name  from emp1 left outer join dept on  emp1.dept_id=dept.id;
+——————————————————————————————————————————————————————————————
+自连接：当前表与自身的连接查询，自连接必须使用表别名（可内可外）
+select 字段列表 from 表a 别名a join 表a 别名b on 条件 select a.name,b.name from emp1 a,emp1 b where a.managerid=b.id;
+查询员工及其直属领导
+select a.name,b.name from emp1 a left join emp1 b on a.managerid=b.id
+select a.name,b.name from emp1 a,emp1 b where a.managerid=b.id;
+——————————————————————————————————————————————————————————————
+2.联合查询-union  将两次查询结果合并起来，形成全新查询结果  多张表的列数必须一致，字段类型也应该一致
+select 字段列表 from 表a 。。
+union 【all】 去掉all可以去重复  
+select 字段列表 from 表b 。。
+查询薪资大于5000且年龄大于50岁的员工
+——————————————————————————————————————————————————————————————————————————————————————————————
+子查询  
+select * from t1 where column=（select column1 from t2）；括号内为子查询 
+1.标量子查询 < > <> <= >=
+只返回单个值
+select * from emp1 where dept_id=(select id from dept where name='销售部');
+查询rose之后员工的信息 select * from emp1 where id>(select id from emp1 where name='rose');
+2.列子查询
+返回结果为一列/多行 in not in any some all
+any=some 任意满足即可
+all   均要满足
+select * from emp1 where dept_id in (select id from dept where name='销售部' or name='市场部');
+select * from emp1 where salary>all(select salary from emp1 where dept_id=(select id from dept where name='财务部'));
+3.行子查询
+返回结果为一行或者多行 二者结合
+4.表子查询
+select * from emp1 where(job,salary) in (select job,salary from emp1 where name='rose' or name ='linda');
+可以将查询到的部分信息作为一张临时表 比如
+select* from emp1 where datetime>'xxxxxx';
+select xx from (*select* from emp1 where datetime>'xxxxxx') xxxxxx;十分自由
