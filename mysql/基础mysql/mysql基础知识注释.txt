@@ -40,16 +40,20 @@ INSERT INTO NAME () VALUES  ();
 INSERT INTO NAME VALUES() 为所有字段添加数据
 INSERT INTO NAME () VALUES() ，() ，() ，() ，() 批量增加数据
 INSERT INTO NAME VALUES()，()，()，()，()为所有值批量增加
+使用replace into values 可以修改纯在的数据修改为其他值
 8.更新表中数据内容
 UPDATE NAME SET 字段1=xx，字段2=xx，where id()()()=what;(如诺不添加where  则为修改所有数据为所改内容)
 9.删除表中数据内容
 DELETE FROM NAME WHERE 条件；不加where和条件 则为删除所有员工
+turncate table name 表示清空表中内容
 ------------------------------------------------------------数据查询
 SELECT * FROM NAME;查询所有
 SELECT 字段1， 字段2，，，， FROM NAME;
 SELECT 字段2 AS’‘， 字段2 AS’‘，，，， FROM NAME; 设置别名 as 可以省略
 SELECT DISTINCT 字段列表 FROM 表名；去除重复项，可以迅速知道哪些年龄的人 哪位地方一目了然 去除重复的繁琐
 条件查询
+ CREATE TABLE classes1 LIKE classes;建立相同的表结构
+INSERT INTO classes1 SELECT * FROM classes WHERE department_id='101'; 插入数据 
 SELECT 字段 FROM NAME WHERE 条件列表；
 >) >=) <) <=) =) <>或!=) BETWEEN ** AND  **某范围内 含最大最小 ) IN(...)) LIKE占位符) IS NULL) AND或&&）OR或||) NOT 或！ 否 不是）
 1.查询空与非空 SELECT *FROM NAME WHERE XX IS NULL;SELECT * FROM NAME WHERE XX IS NOT NULL/IS ! NULL  
@@ -75,3 +79,4 @@ asc:升序  asc可以省略，默认升序
 desc:降序
 ======================================================================================================分页查询
 SELECT 字段列表 FROM 表名 LIMIT 起始索引，查询记录数；索引从0开始 （页码-1）*每页显示记录数
+当以关键字建名时 可以用引号阔起

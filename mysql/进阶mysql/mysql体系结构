@@ -1,0 +1,29 @@
+1.连接层——服务器——引擎层——储存层
+2.默认存储引擎：innoDB
+指定存储引擎 建完表后 create table name（）engine=引擎名称
+查询可用引擎 show engines
+MEMORY,YES,"Hash based, stored in memory, useful for temporary tables",NO,NO,NO
+MRG_MYISAM,YES,Collection of identical MyISAM tables,NO,NO,NO
+CSV,YES,CSV storage engine,NO,NO,NO
+FEDERATED,NO,Federated MySQL storage engine,,,
+PERFORMANCE_SCHEMA,YES,Performance Schema,NO,NO,NO
+MyISAM,YES,MyISAM storage engine,NO,NO,NO
+InnoDB,DEFAULT,"Supports transactions, row-level locking, and foreign keys",YES,YES,YES
+ndbinfo,NO,MySQL Cluster system information storage engine,,,
+BLACKHOLE,YES,/dev/null storage engine (anything you write to it disappears),NO,NO,NO
+ARCHIVE,YES,Archive storage engine,NO,NO,NO
+ndbcluster,NO,"Clustered, fault-tolerant tables",,,
++——+++++++++++++++++++++++++++++++++++++++++++++++++++
+InnoDB
+行级锁 外键 事务
+磁盘文件后缀为xxx.ibd xxx为表名
+innoDB逻辑存储结构
+tablespece-segment-extent固定1m-page固定16k-row
+————————————————————————————————————————————————————————
+MyISAM
+早期默认引擎，不支持外键事务行级锁，访问速度快，仅支持表锁
+后缀为myi mdy sdi
+————————————————————————————————————————————————————————
+MEMORY
+仅支持临时表，因为数据都存放在内存中，支持哈希索引 支持表锁 不支持外键事务行级锁
+后缀仅有sdi文件 
