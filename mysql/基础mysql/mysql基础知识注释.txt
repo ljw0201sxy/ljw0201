@@ -40,7 +40,7 @@ INSERT INTO NAME () VALUES  ();
 INSERT INTO NAME VALUES() 为所有字段添加数据
 INSERT INTO NAME () VALUES() ，() ，() ，() ，() 批量增加数据
 INSERT INTO NAME VALUES()，()，()，()，()为所有值批量增加
-使用replace into values 可以修改纯在的数据修改为其他值
+使用replace into values 可以修改存在的数据修改为其他值
 8.更新表中数据内容
 UPDATE NAME SET 字段1=xx，字段2=xx，where id()()()=what;(如诺不添加where  则为修改所有数据为所改内容)
 9.删除表中数据内容

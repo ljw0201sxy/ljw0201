@@ -1,0 +1,56 @@
+——————创建视图实则创建sql查询语句
+基本语法
+1.创建create [or replace] view name as select语句 [with[cascaded|local]check option]
+create or replace view stu_v_1 as select id,name from student where id<=10;
+2.查询（类似于表查询）
+视图实则是一张虚拟存在的表，如何操作表如何操作视图。
+3.修改
+法一 create or replace view name as select语句 [with[cascaded|local]check option]；
+法二 alter view name as select [with[cascaded|local]check option]；
+create or replace view stu_v_1 as select id,name,no from student where id<=10; 直接修改
+alter view stu_v_1 as select id,name,no from student where id<=10; alter修改 其实差不多
+4.删除
+drop view [if exists] name;
+5.插入
+在视图插入的数据实际上是插入视图所属表中
+insert into viewname ()values();
+6.检查选项
+例如视图创建时的限制为create or replace view stu_v_1 as select id,name from student where id<=10;
+此时插入 insert into viewname values（30，‘tom’）；在视图中无法查看，因为id为30大于10
+为了能看到可以再创建语句中添加一个选项 with cascaded（或者local也行） check option 默认cascaded
+此时系统会提醒你！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+--cascaded（会为关联表添加检查选项）
+create or replace view stu_v_1 as select id,name from student where id<=20;
+insert into stu_v_1 values(5,'tom');
+insert into stu_v_1 values(25,'tom');
+
+create or replace view stu_v_2 as select id,name from stu_v_1 where id>=10 with cascaded check option ;
+insert into stu_v_2 values(7,'tom');失败 基本本视图不符合大于等于10
+insert into stu_v_2 values(26,'tom');失败 基于v1视图id小于等于20 为此视图添加的cascaded从而自动添加上视图的限制
+insert into stu_v_2 values(15,'tom');成功 同时满足10到20的范围
+此番比较则为cascaded的控制方法，可以基于后者给出的限制从而附加前者的应有限制
+例如create or replace view stu_v_3 as select id,name from stu_v_2 where id<=10
+insert into stu_v_3 values(17,'tom'); 成功 第一17虽然不在范围内 但没加检查所以成功 而且在视图2的检查中确实符合，又符合1的视图
+insert into stu_v_3 values(28,'tom'); 失败，28<=20
+
+
+--local（不会为关联表添加检查选项）
+create or replace view v1 as select id,name from student where id<=15;
+insert into v1 values(5,'tom');
+insert into v1 values(16,'tom');
+
+create or replace view v2 as select id,name from v1 where id>=10 with local check option ;
+insert into v2 values(13,'tom');
+insert into v2 values(17,'tom');
+
+create view v3 as select id,name from v2 where id<20;
+insert into v3 values(14,'tom');
+insert into v3 values(9,'tom');失败 无需多说，其他全部成功
+7.更新
+视图行与基础表中行必须满足一对一的关系，才可更新
+如果包含以下不可更新 --聚合函数--disinct--group by--having--union--union all
+
+
+案例
+1.保证表的安全性，可以选择性展示表的一部分内容 比如屏蔽一些秘密字段，例如用户的手机号和身份证
+2.仅查询学生选修的课程
